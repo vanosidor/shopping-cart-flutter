@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shopping_cart/common/routes.dart';
-import 'package:shopping_cart/models/cart.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(title: Text('Login Page')),
         body: Center(
@@ -16,7 +12,10 @@ class LoginPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Welcome', style: Theme.of(context).textTheme.headline1,),
+                Text(
+                  'Welcome',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
                 SizedBox(height: 16),
                 TextField(
                   decoration: InputDecoration(hintText: 'Login'),

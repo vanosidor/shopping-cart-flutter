@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_cart/common/routes.dart';
-import 'package:shopping_cart/models/cart.dart';
 import 'package:shopping_cart/models/catalog.dart';
+import 'package:shopping_cart/store/cart_store.dart';
 
 class CatalogPage extends StatelessWidget {
   @override
@@ -51,8 +52,8 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _item = context
-        .select<CatalogModel, Item>((catalog) => catalog.getByPosition(index));
+    final _item = context.select<CartStore, Item>(
+        (store) => store.catalog.createByPosition(index));
 
     return Row(
       children: [
@@ -85,17 +86,22 @@ class AddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isInCart = context.select<CartModel, bool>((cart) {
-      return cart.items.contains(item);
-    });
+    return Observer(
+      builder: (context) {
+        final items = context.select<CartStore, List<Item>>((store) {
+          return store.itemsInCart;
+        });
+        final _isInCart = items.contains(item);
 
-    return FlatButton(
-        onPressed: isInCart
-            ? null
-            : () {
-                final _cart = context.read<CartModel>();
-                _cart.add(item);
-              },
-        child: isInCart ? Icon(Icons.check) : Text('ADD'));
+        return FlatButton(
+            onPressed: _isInCart
+                ? null
+                : () {
+                    final _cart = context.read<CartStore>();
+                    _cart.add(item);
+                  },
+            child: _isInCart ? Icon(Icons.check) : Text('ADD'));
+      },
+    );
   }
 }

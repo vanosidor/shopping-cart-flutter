@@ -20,12 +20,7 @@ class CatalogModel {
     'Currying',
   ];
 
-  Item getById(int id) => Item(
-      id: id,
-      name: itemNames[id % itemNames.length],
-      color: Item.generateColor(id));
-
-  Item getByPosition(int position) => Item(
+  Item createByPosition(int position) => Item(
       id: position,
       name: itemNames[position % itemNames.length],
       color: Item.generateColor(position));
